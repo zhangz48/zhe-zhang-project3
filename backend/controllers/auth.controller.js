@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export const signup = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { fullName, username, email, password } = req.body;
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
@@ -29,6 +29,7 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new User({
+            fullName,
             username,
             email,
             password: hashedPassword,
@@ -40,6 +41,7 @@ export const signup = async (req, res) => {
 
             res.status(201).json({
                 _id: newUser._id,
+                fullName: newUser.fullName,
                 username: newUser.username,
                 email: newUser.email,
             });
@@ -66,6 +68,7 @@ export const login = async (req, res) => {
 
         res.status(200).json({
             _id: user._id,
+            fullName: user.fullName,
             username: user.username,
             email: user.email,
         });

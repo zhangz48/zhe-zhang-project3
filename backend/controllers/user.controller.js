@@ -16,7 +16,7 @@ export const getUserProfile = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-    const { email, username, currentPassword, newPassword, bio, link } = req.body;
+    const { fullName, email, username, currentPassword, newPassword, bio, link } = req.body;
 
     const userId = req.user._id;
 
@@ -39,6 +39,7 @@ export const updateUser = async (req, res) => {
             user.password = await bcrypt.hash(newPassword, salt);
         }
 
+        user.fullName = fullName || user.fullName;
         user.email = email || user.email;
         user.username = username || user.username;
         user.bio = bio || user.bio;
