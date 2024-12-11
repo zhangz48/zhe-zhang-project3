@@ -1,5 +1,6 @@
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const createPost = async (req, res) => {
     try {
@@ -9,13 +10,19 @@ export const createPost = async (req, res) => {
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        if (!text) {
-            return res.status(400).json({ error: "Post must have text" });
+        if (!text && !img) {
+            return res.status(400).json({ error: "Post must have text or image" });
+        }
+
+        if (img) {
+            const uploadedResponse = await cloudinary.uploader.upload(img);
+            img = uploadedResponse.secure_url;
         }
 
         const newPost = new Post({
             user: userId,
             text,
+            img,
         });
 
         await newPost.save();
@@ -35,6 +42,11 @@ export const deletePost = async (req, res) => {
 
         if (post.user.toString() !== req.user._id.toString()) {
             return res.status(401).json({ error: "You are not authorized to delete this post" });
+        }
+
+        if (post.img) {
+            const imgId = post.img.split("/").pop().split(".")[0];
+            await cloudinary.uploader.destroy(imgId);
         }
 
         await Post.findByIdAndDelete(req.params.id);

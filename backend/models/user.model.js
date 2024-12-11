@@ -21,6 +21,22 @@ const userSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
+        profileImg: {
+			type: String,
+			default: "",
+		},
+		coverImg: {
+			type: String,
+			default: "",
+		},
+        bio: {
+			type: String,
+			default: "",
+		},
+		link: {
+			type: String,
+			default: "",
+		},
     },
     { timestamps: true }
 );
