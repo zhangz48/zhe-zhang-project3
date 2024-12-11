@@ -9,9 +9,16 @@ import {
 
 const router = express.Router();
 
-router.get("/all", protectRoute, getAllPosts);
+// Public route for fetching all posts
+router.get("/all", getAllPosts);
+
+// Protected route for fetching a user's posts
 router.get("/user/:username", protectRoute, getUserPosts);
+
+// Protected route for creating a post
 router.post("/create", protectRoute, createPost);
+
+// Protected route for deleting a post
 router.delete("/:id", protectRoute, deletePost);
 
 export default router;

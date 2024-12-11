@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import XSvg from "../../../components/svgs/X";
@@ -19,6 +19,7 @@ const SignUpPage = () => {
   });
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ email, username, fullName, password }) => {
@@ -43,6 +44,7 @@ const SignUpPage = () => {
     onSuccess: () => {
       toast.success("Account created successfully");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/");
     },
   });
 

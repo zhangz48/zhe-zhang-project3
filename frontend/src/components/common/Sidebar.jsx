@@ -43,24 +43,28 @@ const Sidebar = () => {
                     <li className='flex justify-center md:justify-start'>
                         <Link
                             to='/'
-                            className='flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer'
+                            className='flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 px-4'
                         >
                             <MdHomeFilled className='w-8 h-8' />
                             <span className='text-lg hidden md:block'>Home</span>
                         </Link>
                     </li>
 
-                    <li className='flex justify-center md:justify-start'>
-                        <Link
-                            to={`/profile/${authUser?.username}`}
-                            className='flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer'
-                        >
-                            <FaUser className='w-6 h-6' />
-                            <span className='text-lg hidden md:block'>Profile</span>
-                        </Link>
-                    </li>
+                    {authUser && (
+                        <li className='flex justify-center md:justify-start'>
+                            <Link
+                                to={`/profile/${authUser?.username}`}
+                                className='flex gap-3 items-center hover:bg-stone-900 transition-all rounded-full duration-300 py-2 px-4'
+                            >
+                                <FaUser className='w-6 h-6' />
+                                <span className='text-lg hidden md:block'>Profile</span>
+                            </Link>
+                        </li>
+                    )}
                 </ul>
-                {authUser && (
+
+                {/* Conditional Bottom Section */}
+                {authUser ? (
                     <Link
                         to={`/profile/${authUser.username}`}
                         className='mt-auto mb-10 flex gap-2 items-start transition-all duration-300 hover:bg-[#181818] py-2 px-4 rounded-full'
@@ -84,9 +88,16 @@ const Sidebar = () => {
                             />
                         </div>
                     </Link>
+                ) : (
+                    <Link to='/login' className='mt-auto mb-10 flex justify-center md:justify-start w-full px-2'>
+                        <button className='btn rounded-full btn-primary text-white btn-outline w-full px-2 py-2 text-center break-words overflow-hidden'>
+                            Login / Sign up
+                        </button>
+                    </Link>
                 )}
             </div>
         </div>
     );
 };
+
 export default Sidebar;
