@@ -19,6 +19,7 @@ const HomePage = () => {
 					}
 					return data;
 				} catch (error) {
+					console.error("Error in auth query:", error);
 					return null; // Return null if user is not logged in
 				}
 			},
